@@ -36,12 +36,13 @@
 
 
                 <ImageView
-                    android:id="@+id/iv_history"
+                    android:id="@+id/iv_cities"
                     android:layout_width="45dp"
                     android:layout_height="match_parent"
                     android:padding="7dp"
                     android:layout_alignParentLeft="true"
-                    android:src="@drawable/ic_history" />
+                    android:src="@drawable/ic_location_mark" />
+
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
 

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;

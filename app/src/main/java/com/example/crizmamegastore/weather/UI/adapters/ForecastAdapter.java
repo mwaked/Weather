@@ -14,8 +14,9 @@ import android.widget.TextView;
 
 import com.example.crizmamegastore.weather.Base.ParentRecyclerAdapter;
 import com.example.crizmamegastore.weather.Base.ParentRecyclerViewHolder;
-import com.example.crizmamegastore.weather.Model.Weather;
+import com.example.crizmamegastore.weather.Model.ForecastResponse.Weather;
 import com.example.crizmamegastore.weather.R;
+import com.example.crizmamegastore.weather.Utils.DateUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -98,16 +99,12 @@ public class ForecastAdapter extends ParentRecyclerAdapter<Weather> {
                 weatherViewHolder.weather_icon.setText(R.string.wi_night_snow);
                 break;
 
-
-
         }
 
-        Log.w("time:",weather.time);
         long timestamp = Long.parseLong(weather.time);
-        Date expiry = new Date(timestamp * 1000);
-        weatherViewHolder.time.setText(String.valueOf(expiry));
+        weatherViewHolder.time.setText(DateUtils.getDate(timestamp * 1000L));
         weatherViewHolder.rain_description.setText(weather.rain_descr);
-        weatherViewHolder.humidity.setText("humidity:"+weather.humidity);
+        weatherViewHolder.humidity.setText(context.getString(R.string.humidity)+weather.humidity);
 
     }
 

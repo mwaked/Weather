@@ -1,15 +1,10 @@
 package com.example.crizmamegastore.weather.UI.activites;
 
-
-import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
-
 import com.example.crizmamegastore.weather.Base.ParentActivity;
-import com.example.crizmamegastore.weather.Model.Main;
 import com.example.crizmamegastore.weather.R;
-
 import butterknife.BindView;
 
 public class SplashActivity extends ParentActivity {
@@ -27,16 +22,13 @@ public class SplashActivity extends ParentActivity {
         fade.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(final Animation animation) {
-
             }
-
             @Override
             public void onAnimationEnd(final Animation animation) {
                     MainActivity.startActivity(SplashActivity.this);
             }
             @Override
             public void onAnimationRepeat(final Animation animation) {
-
             }
         });
     }
@@ -65,4 +57,5 @@ public class SplashActivity extends ParentActivity {
     protected boolean hideInputType() {
         return false;
     }
+
 }

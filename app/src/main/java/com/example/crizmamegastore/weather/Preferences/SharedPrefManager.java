@@ -3,7 +3,7 @@ package com.example.crizmamegastore.weather.Preferences;
 import android.content.Context;
 import android.content.SharedPreferences;
 import com.example.crizmamegastore.weather.App.Constant;
-import com.example.crizmamegastore.weather.Model.WeatherData;
+import com.example.crizmamegastore.weather.Model.ForecastResponse.WeatherData;
 import com.google.gson.Gson;
 
 public class SharedPrefManager {

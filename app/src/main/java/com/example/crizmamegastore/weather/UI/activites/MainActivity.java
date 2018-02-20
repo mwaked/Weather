@@ -15,7 +15,6 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -26,8 +25,9 @@ import com.example.crizmamegastore.weather.GPS.GPSTracker;
 import com.example.crizmamegastore.weather.GPS.GPSTrakerListner;
 import com.example.crizmamegastore.weather.Listners.ChooseCityListener;
 import com.example.crizmamegastore.weather.Model.CitiesModel;
-import com.example.crizmamegastore.weather.Model.Weather;
-import com.example.crizmamegastore.weather.Model.WeatherData;
+import com.example.crizmamegastore.weather.Model.CitiesModel_;
+import com.example.crizmamegastore.weather.Model.ForecastResponse.Weather;
+import com.example.crizmamegastore.weather.Model.ForecastResponse.WeatherData;
 import com.example.crizmamegastore.weather.Network.RetroWeb;
 import com.example.crizmamegastore.weather.Network.ServiceApi;
 import com.example.crizmamegastore.weather.R;
@@ -37,15 +37,13 @@ import com.example.crizmamegastore.weather.Utils.CommonUtil;
 import com.example.crizmamegastore.weather.Utils.DialogUtil;
 import com.example.crizmamegastore.weather.Utils.LocationUtils;
 import com.example.crizmamegastore.weather.Utils.PermissionUtils;
-import com.example.crizmamegastore.weather.Utils.UnitConvertor;
-
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.objectbox.Box;
 import io.objectbox.BoxStore;
+import io.objectbox.query.Query;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -94,20 +92,23 @@ public class MainActivity extends ParentActivity implements GPSTrakerListner , C
     @BindView(R.id.weather_icon)
     TextView weather_icon;
 
+    @BindView(R.id.weather_humid)
+    TextView weather_humid;
+
     @BindView(R.id.main_layout)
-    FrameLayout main_layout;
+    RelativeLayout main_layout;
 
     @BindView(R.id.layout_main_info)
     RelativeLayout layout_main_info;
-
-    @BindView(R.id.weather_temp)
-    TextView weather_temp ;
 
     @BindView(R.id.fab_add)
     FloatingActionButton fab_add ;
 
     @BindView(R.id.appBar)
     AppBarLayout appBar ;
+
+    private Query<CitiesModel> notesQuery;
+    private List<CitiesModel> modelArrayList;
 
     public static void startActivity(AppCompatActivity mAppCompatActivity) {
         Intent mIntent = new Intent(mAppCompatActivity, MainActivity.class);
@@ -157,7 +158,7 @@ public class MainActivity extends ParentActivity implements GPSTrakerListner , C
         return true;
     }
 
-    @OnClick(R.id.iv_history)
+    @OnClick(R.id.iv_cities)
     void onHistoryClick() {
         mChooseCityDialog = new ChooseCityDialog(MainActivity.this);
         mChooseCityDialog.onChooseCityListener(this);
@@ -180,8 +181,20 @@ public class MainActivity extends ParentActivity implements GPSTrakerListner , C
     }
 
     private void addToMyCities() {
+        boolean alreadyAdded = false ;
+        notesQuery = weatherModelBox.query().order(CitiesModel_.id).build();
+        modelArrayList = notesQuery.find();
         CitiesModel citiesModel = new CitiesModel(cityName, mLat, mLang);
-        weatherModelBox.put(citiesModel);
+        for (int i = 0; i < modelArrayList.size(); i++) {
+            if(modelArrayList.get(i).getCityName().equals(citiesModel.getCityName())){
+                alreadyAdded = true ;
+            }
+        }
+        if(alreadyAdded){
+            CommonUtil.makeSnake(main_layout  , R.string.city_added_befoer);
+        }else{
+            weatherModelBox.put(citiesModel);
+        }
     }
 
     @Override
@@ -370,12 +383,8 @@ public class MainActivity extends ParentActivity implements GPSTrakerListner , C
             weather_report.setText(weatherData.getList().get(0).getWeather().get(0).getDescription());
             place.setText(weatherData.getCity().getName() + ", " + weatherData.getCity().getCountry());
             cityName = weatherData.getCity().getName() ;
-
-            // Temperature
-            float temperature = UnitConvertor.convertTemperature(Float.parseFloat(String.valueOf(weatherData.getList().get(0).getMain().getTemp())));
-            weather_temp.setText(new DecimalFormat("0.#").format(temperature) + " " + "°C");
-
             setToolbarTitle(weatherData.getCity().getName() + ", " + weatherData.getCity().getCountry());
+            weather_humid.setText(getString(R.string.humidity)+weatherData.getList().get(0).getMain().getHumidity());
             switch (weatherData.getList().get(0).getWeather().get(0).getIcon()) {
                 case "01d":
                     weather_icon.setText(R.string.wi_day_sunny);
@@ -441,7 +450,6 @@ public class MainActivity extends ParentActivity implements GPSTrakerListner , C
                         String.valueOf(weatherData.getList().get(i).getDt())));
 
             }
-            forecastAdapter.InsertAll(mWeather);
         }else{
             lay_no_item.setVisibility(View.VISIBLE);
         }

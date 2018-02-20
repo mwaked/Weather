@@ -131,6 +131,10 @@ public class ChooseCityDialog extends Dialog implements OnItemClickListener {
                 R.layout.recycle_city_row);
         citiesAdapter.setOnItemClickListener(this);
         rv_recycle.setAdapter(citiesAdapter);
+
+        if(modelArrayList.size() == 0){
+            lay_no_item.setVisibility(View.VISIBLE);
+        }
     }
 
 
