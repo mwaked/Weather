@@ -172,10 +172,15 @@ public class MainActivity extends ParentActivity implements GPSTrakerListner , C
 
     @OnClick(R.id.fab_add)
     void onAddClick() {
-        DialogUtil.showAlertDialog(MainActivity.this, "Add  " + "\"" + cityName + "\"" + "  to yout cities", new DialogInterface.OnClickListener() {
+        mAlertDialog = DialogUtil.showAlertDialog(MainActivity.this, "Add  " + "\"" + cityName + "\"" + "  to yout cities", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(final DialogInterface dialogInterface, final int i) {
                 addToMyCities();
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                mAlertDialog.dismiss();
             }
         });
     }
@@ -185,6 +190,9 @@ public class MainActivity extends ParentActivity implements GPSTrakerListner , C
         notesQuery = weatherModelBox.query().order(CitiesModel_.id).build();
         modelArrayList = notesQuery.find();
         CitiesModel citiesModel = new CitiesModel(cityName, mLat, mLang);
+        if(citiesModel.equals("")){
+            return;
+        }
         for (int i = 0; i < modelArrayList.size(); i++) {
             if(modelArrayList.get(i).getCityName().equals(citiesModel.getCityName())){
                 alreadyAdded = true ;
@@ -219,18 +227,17 @@ public class MainActivity extends ParentActivity implements GPSTrakerListner , C
         Log.e("Code", "requestCode: " + requestCode);
         switch (requestCode) {
             case Constant.RequestCode.GET_LOCATION: {
-                if (resultCode == RESULT_OK) {
                     Log.e("Code", "request GPS Enabled True");
                     getCurrentLocation();
-                }
             }
             break;
             case Constant.RequestCode.GPS_ENABLING: {
-                if (resultCode == RESULT_OK) {
                     Log.e("Code", "request GPS Enabled True");
                     getCurrentLocation();
-                }
             }
+            break;
+            default:
+                finish();
         }
     }
 
@@ -246,6 +253,7 @@ public class MainActivity extends ParentActivity implements GPSTrakerListner , C
                         Log.e("Permission", grantResults[0] + "");
                     }
                 } else {
+                    setWeatherData(mSharedPrefManager.getWeatherData());
                     Log.e("Permission", "permission arn't granted");
                 }
                 return;
@@ -324,6 +332,12 @@ public class MainActivity extends ParentActivity implements GPSTrakerListner , C
                             mAlertDialog.dismiss();
                             Intent intent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                             startActivityForResult(intent, Constant.RequestCode.GPS_ENABLING);
+                        }
+                    }, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            mAlertDialog.dismiss();
+                            setWeatherData(mSharedPrefManager.getWeatherData());
                         }
                     });
         } else {
@@ -449,9 +463,11 @@ public class MainActivity extends ParentActivity implements GPSTrakerListner , C
                         String.valueOf(weatherData.getList().get(i).getWeather().get(0).getDescription()),
                         String.valueOf(weatherData.getList().get(i).getDt())));
 
+                forecastAdapter.notifyDataSetChanged();
+
             }
         }else{
-            lay_no_item.setVisibility(View.VISIBLE);
+            finish();
         }
     }
 

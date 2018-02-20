@@ -22,21 +22,19 @@ public final class DialogUtil {
 
 
     public static AlertDialog showAlertDialog(Context context, String message,
-                                              DialogInterface.OnClickListener negativeClickListener) {
+                                              DialogInterface.OnClickListener positiveClickListener ,DialogInterface.OnClickListener negativeClickListener ) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         dialogBuilder.setTitle(message);
         if (negativeClickListener != null) {
-
-            dialogBuilder.setNegativeButton(context.getString(R.string.yes), negativeClickListener);
-            dialogBuilder.setPositiveButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+            dialogBuilder.setPositiveButton(context.getString(R.string.no),negativeClickListener);
+        }
+        if(positiveClickListener != null){
+            dialogBuilder.setNegativeButton(context.getString(R.string.yes), positiveClickListener);
         }
 
         AlertDialog dialog = dialogBuilder.create();
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         return dialog;
     }

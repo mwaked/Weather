@@ -12,7 +12,7 @@
 
         <ImageView
             android:id="@+id/iv_close"
-            android:layout_width="50dp"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
             android:paddingRight="10dp"
             android:layout_alignParentLeft="true"
