@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Weather</string>
+
+
+    <!--  Network connection-->
+    <string name="time_out_error">internet too slow , try again later ...</string>
+    <string name="connection_error">Error in connection, Can not refresh data!</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="cancel">Cancel</string>
+    <string name="dialog_continue">Continue</string>
+    <string name="fill_empty_field">Please fill empty field</string>
+    <string name="dialog_ok">Ok</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="search_title">Search for cities</string>
+    <string name="gps_detect">Allow to specify your location</string>
+    <string name="try_again">Try again</string>
+
+    <string name="wi_day_rain_mix">&#xf006;</string>
+    <string name="wi_day_snow">&#xf00a;</string>
+    <string name="wi_day_sunny">&#xf00d;</string>
+    <string name="wi_day_thunderstorm">&#xf010;</string>
+    <string name="wi_cloudy_gusts">&#xf011;</string>
+    <string name="wi_cloudy">&#xf013;</string>
+    <string name="wi_night_clear">&#xf02e;</string>
+    <string name="wi_night_cloudy_gusts">&#xf02f;</string>
+    <string name="wi_night_cloudy">&#xf031;</string>
+    <string name="wi_night_rain">&#xf036;</string>
+    <string name="wi_night_snow">&#xf038;</string>
+    <string name="wi_cloud_down">&#xf03d;</string>
+    <string name="address_not_found">City not found!</string>
+    <string name="welcome_txt">Welcome <u>Ahmed Mabrook</u></string>
+    <string name="add">Add to your cities</string>
+    <string name="select_city">Select city</string>
+    <string name="no_cities_found">No cities added yet!</string>
+
+</resources>

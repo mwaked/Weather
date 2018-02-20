@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/splash_layout"
+    android:background="@drawable/backgroud_splash"
+    tools:context="com.example.crizmamegastore.weather.UI.activites.SplashActivity">
+
+   <TextView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_alignParentBottom="true"
+       android:padding="10dp"
+       android:gravity="center"
+       android:text="@string/welcome_txt"
+       android:textColor="@color/whiteColor"
+       android:textStyle="bold"
+       android:textSize="15sp"/>
+
+</RelativeLayout>
